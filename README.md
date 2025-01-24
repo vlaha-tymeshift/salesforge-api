@@ -130,14 +130,14 @@ To run the SalesForge API project, follow these steps:
   ```
 
 ## TODO
+- **UUID**:
+    - Consider using UUIDs for unique identifiers instead of integers.
+    - Consider adding support for UUID generation in the database.
+
 - **Testing**:
     - Write unit tests for all service methods.
     - Write integration tests for database interactions.
     - Implement end-to-end tests for API endpoints.
-
-- **Error Handling**:
-    - Implement comprehensive error handling for all service methods.
-    - Ensure meaningful error messages are returned to the client.
 
 - **Configuration**:
     - Validate configuration values on startup.
@@ -147,13 +147,6 @@ To run the SalesForge API project, follow these steps:
     - Implement authentication and authorization for API endpoints.
     - Ensure sensitive data is encrypted in transit and at rest.
 
-- **Documentation**:
-    - Document all API endpoints with examples and expected responses.
-    - Provide setup and usage instructions for developers.
-
-- **Performance**:
-    - Optimize database queries for better performance.
-    - Implement caching where appropriate to reduce load on the database.
 
 ## License
 This project is licensed under the MIT License.

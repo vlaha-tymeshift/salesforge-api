@@ -21,6 +21,7 @@ func NewServer(
 ) *http.Server {
 	r := chi.NewRouter()
 	r.Use(middleware.LoggingMiddleware(l))
+	r.Use(middleware.ErrorHandlingMiddleware(l))
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", conf.AppServerPort),
