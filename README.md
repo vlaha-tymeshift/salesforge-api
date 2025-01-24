@@ -59,37 +59,43 @@ To run the SalesForge API project, follow these steps:
 
 #### Add Sequence
 
-- **Endpoint**: `/add-sequence`
+- **Endpoint**: `/v1/sequence`
 - **Method**: `POST`
 - **Payload**:
   ```json
   {
-    "account_id": 12345,
-    "sequence_name": "Sequence Name",
+    "account_id": 6789,
+    "sequence_name": "New Welcome Sequence!",
     "sequence_open_tracking_enabled": true,
-    "sequence_click_tracking_enabled": true,
+    "sequence_click_tracking_enabled": false,
     "steps": [
-      {
-        "step_email_subject": "Subject of the email",
-        "step_email_body": "Body of the email",
-        "wait_days": 1,
-        "eligible_start_time": 1633036800,
-        "eligible_end_time": 1633123200
-      }
+        {
+            "step_email_subject": "Welcome to our service",
+            "step_email_body": "Thank you for joining us!",
+            "wait_days": 1,
+            "eligible_start_time": 1737621878,
+            "eligible_end_time": 1737631081
+        },
+        {
+            "step_email_subject": "Getting Started",
+            "step_email_body": "Here are some tips to get started.",
+            "wait_days": 2,
+            "eligible_start_time": 1737751081,
+            "eligible_end_time": 1737791222
+        }
     ]
   }
   ```
 
 #### Update Sequence
 
-- **Endpoint**: `/update-sequence`
-- **Method**: `POST`
+- **Endpoint**: `/v1/sequence`
+- **Method**: `PUT`
 - **Payload**:
   ```json
   {
-    "account_id": 12345,
-    "sequence_id": 11223,
-    "sequence_name": "Updated Sequence Name",
+    "account_id": 6789,
+    "sequence_id": 2,
     "sequence_open_tracking_enabled": false,
     "sequence_click_tracking_enabled": true
   }
@@ -97,23 +103,23 @@ To run the SalesForge API project, follow these steps:
 
 #### Update Step
 
-- **Endpoint**: `/update-step`
-- **Method**: `POST`
+- **Endpoint**: `/v1/step`
+- **Method**: `PUT`
 - **Payload**:
   ```json
   {
-    "account_id": 12345,
-    "step_id": 67890,
-    "sequence_id": 11223,
-    "step_email_subject": "Updated Subject of the email",
-    "step_email_body": "Updated Body of the email"
+    "account_id": 1,
+    "step_id": 1,
+    "sequence_id": 1,
+    "step_email_subject": "Welcome to our service!",
+    "step_email_body": "Thank you for joining us."
   }
   ```
 
 #### Delete Step
 
-- **Endpoint**: `/delete-step`
-- **Method**: `POST`
+- **Endpoint**: `/v1/step`
+- **Method**: `DELETE`
 - **Payload**:
   ```json
   {
