@@ -28,7 +28,7 @@ func main() {
 	// Config.
 	cfg, err := config.LoadConfig(os.DirFS("."))
 	if err != nil {
-		log.Fatal("failed to load config", zap.Error(err))
+		log.Fatal("failed to load config: ", err.Error())
 	}
 
 	// Logging.

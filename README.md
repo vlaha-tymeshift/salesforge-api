@@ -139,9 +139,6 @@ To run the SalesForge API project, follow these steps:
     - Write integration tests for database interactions.
     - Implement end-to-end tests for API endpoints.
 
-- **Configuration**:
-    - Validate configuration values on startup.
-    - Add support for environment-specific configurations.
 
 ## License
 This project is licensed under the MIT License.
