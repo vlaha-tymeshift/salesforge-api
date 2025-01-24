@@ -143,10 +143,5 @@ To run the SalesForge API project, follow these steps:
     - Validate configuration values on startup.
     - Add support for environment-specific configurations.
 
-- **Security**:
-    - Implement authentication and authorization for API endpoints.
-    - Ensure sensitive data is encrypted in transit and at rest.
-
-
 ## License
 This project is licensed under the MIT License.

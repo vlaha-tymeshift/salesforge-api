@@ -15,8 +15,9 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	AppServerPort   int `yaml:"AppServerPort"`
-	HealthcheckPort int `yaml:"HealthcheckServerPort"`
+	AppServerPort     int  `yaml:"AppServerPort"`
+	HealthcheckPort   int  `yaml:"HealthcheckServerPort"`
+	JWTAuthentication bool `yaml:"JWTAuthentication"`
 }
 
 type MySqlConfig struct {

@@ -23,6 +23,10 @@ func NewServer(
 	r.Use(middleware.LoggingMiddleware(l))
 	r.Use(middleware.ErrorHandlingMiddleware(l))
 
+	if conf.JWTAuthentication {
+		r.Use(middleware.Authenticate)
+	}
+
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", conf.AppServerPort),
 		Handler: handlers(r, sequenceService, db, l),
