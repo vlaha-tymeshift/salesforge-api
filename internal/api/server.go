@@ -9,6 +9,7 @@ import (
 	"salesforge-api/internal/api/handlers/healthcheck"
 	"salesforge-api/internal/api/handlers/sequence"
 	"salesforge-api/internal/config"
+	"salesforge-api/internal/middleware"
 	"salesforge-api/internal/service"
 )
 
@@ -18,9 +19,12 @@ func NewServer(
 	db *sql.DB,
 	l *zap.Logger,
 ) *http.Server {
+	r := chi.NewRouter()
+	r.Use(middleware.LoggingMiddleware(l))
+
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", conf.AppServerPort),
-		Handler: handlers(chi.NewRouter(), sequenceService, db),
+		Handler: handlers(r, sequenceService, db, l),
 	}
 
 	return server
@@ -30,9 +34,10 @@ func handlers(
 	r *chi.Mux,
 	sequenceService service.SequenceService,
 	db *sql.DB,
+	l *zap.Logger,
 ) *chi.Mux {
-	sequenceHandler := sequence.NewSequenceHandler(sequenceService)
-	healthCheckHandler := healthcheck.NewHealthCheckHandler(db)
+	sequenceHandler := sequence.NewSequenceHandler(sequenceService, l)
+	healthCheckHandler := healthcheck.NewHealthCheckHandler(db, l)
 
 	r.Route("/v1", func(r chi.Router) {
 		r.Post("/sequence", sequenceHandler.AddSequence)

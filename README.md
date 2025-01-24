@@ -135,11 +135,6 @@ To run the SalesForge API project, follow these steps:
     - Write integration tests for database interactions.
     - Implement end-to-end tests for API endpoints.
 
-- **Logging**:
-    - Integrate a logging library to capture and store logs.
-    - Ensure logs include relevant information such as request details, errors, and performance metrics.
-    - Configure log levels and formats as specified in the `config.yaml`.
-
 - **Error Handling**:
     - Implement comprehensive error handling for all service methods.
     - Ensure meaningful error messages are returned to the client.
