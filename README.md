@@ -135,10 +135,6 @@ To run the SalesForge API project, follow these steps:
     - Write integration tests for database interactions.
     - Implement end-to-end tests for API endpoints.
 
-- **Healthcheck**:
-    - Implement a healthcheck endpoint to monitor the status of the service.
-    - Ensure the healthcheck endpoint verifies database connectivity.
-
 - **Logging**:
     - Integrate a logging library to capture and store logs.
     - Ensure logs include relevant information such as request details, errors, and performance metrics.

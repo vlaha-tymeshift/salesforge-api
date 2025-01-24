@@ -52,7 +52,7 @@ func main() {
 	sequenceRepository := persistence.NewSequenceRepository(db)
 	sequenceService := service.NewSequenceService(sequenceRepository)
 
-	server := api.NewServer(cfg.Server, sequenceService, l)
+	server := api.NewServer(cfg.Server, sequenceService, db, l)
 	// Start server.
 	go func() {
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
