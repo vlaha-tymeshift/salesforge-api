@@ -16,7 +16,6 @@ import (
 func NewServer(
 	conf config.ServerConfig,
 	sequenceService service.SequenceService,
-	db *sql.DB,
 	l *zap.Logger,
 ) *http.Server {
 	r := chi.NewRouter()
@@ -29,7 +28,25 @@ func NewServer(
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", conf.AppServerPort),
-		Handler: handlers(r, sequenceService, db, l),
+		Handler: handlers(r, sequenceService, l),
+	}
+
+	return server
+}
+
+func NewHealthCheckServer(
+	conf config.ServerConfig,
+	db *sql.DB,
+	l *zap.Logger,
+) *http.Server {
+	r := chi.NewRouter()
+	healthCheckHandler := healthcheck.NewHealthCheckHandler(db, l)
+
+	r.Get("/health", healthCheckHandler.ServeHTTP)
+
+	server := &http.Server{
+		Addr:    fmt.Sprintf(":%d", conf.HealthcheckPort),
+		Handler: r,
 	}
 
 	return server
@@ -38,11 +55,9 @@ func NewServer(
 func handlers(
 	r *chi.Mux,
 	sequenceService service.SequenceService,
-	db *sql.DB,
 	l *zap.Logger,
 ) *chi.Mux {
 	sequenceHandler := sequence.NewSequenceHandler(sequenceService, l)
-	healthCheckHandler := healthcheck.NewHealthCheckHandler(db, l)
 
 	r.Route("/v1", func(r chi.Router) {
 		r.Post("/sequence", sequenceHandler.AddSequence)
@@ -50,8 +65,6 @@ func handlers(
 		r.Put("/step", sequenceHandler.UpdateStep)
 		r.Delete("/step", sequenceHandler.DeleteStep)
 	})
-
-	r.Get("/health", healthCheckHandler.ServeHTTP)
 
 	return r
 }

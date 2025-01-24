@@ -61,13 +61,23 @@ func main() {
 	sequenceRepository := persistence.NewSequenceRepository(db)
 	sequenceService := service.NewSequenceService(sequenceRepository)
 
-	server := api.NewServer(cfg.Server, sequenceService, db, l)
-	// Start server.
+	// Main server.
+	server := api.NewServer(cfg.Server, sequenceService, l)
 	go func() {
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			l.Fatal("server failed", zap.Error(err))
 		}
 	}()
+	l.Info("server started", zap.Int("port", cfg.Server.AppServerPort))
+
+	// Health check server.
+	healthCheckServer := api.NewHealthCheckServer(cfg.Server, db, l)
+	go func() {
+		if err := healthCheckServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			l.Fatal("health check server failed", zap.Error(err))
+		}
+	}()
+	l.Info("health check server started", zap.Int("port", cfg.Server.HealthcheckPort))
 
 	// Listen to interrupts.
 	sigChan := make(chan os.Signal, 1)
