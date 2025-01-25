@@ -8,6 +8,7 @@ SalesForge API is a service for managing email sequences and steps within those 
 
 - Go 1.16+
 - PostgreSQL
+- Docker
 
 ## Project Structure
 
@@ -41,7 +42,7 @@ MySql:
   Pass: "yourpassword"
   Host: "localhost"
   Port: 5432
-TestDB:
+TestDB: #For running functional tests
   Db: "postgres"
   User: "yourusername"
   Pass: "yourpassword"
