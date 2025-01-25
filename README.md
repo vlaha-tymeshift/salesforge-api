@@ -17,7 +17,6 @@ SalesForge API is a service for managing email sequences and steps within those 
 - `internal/service`: Contains the service layer for business logic.
 - `internal/psql`: Contains the PostgreSQL connection setup.
 - `config`: Contains configuration files.
-- `docker-entrypoint-initdb.d`: Contains SQL scripts for initializing the database.
 
 ## Database Setup
 
