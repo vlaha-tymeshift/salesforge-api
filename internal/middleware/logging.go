@@ -16,11 +16,18 @@ func LoggingMiddleware(logger *zap.Logger) func(http.Handler) http.Handler {
 			}
 			r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 
-			logger.Info("request received",
-				zap.String("method", r.Method),
-				zap.String("url", r.URL.String()),
-				zap.String("body", string(bodyBytes)),
-			)
+			if r.Method == http.MethodGet || len(bodyBytes) == 0 {
+				logger.Info("request received",
+					zap.String("method", r.Method),
+					zap.String("url", r.URL.String()),
+				)
+			} else {
+				logger.Info("request received",
+					zap.String("method", r.Method),
+					zap.String("url", r.URL.String()),
+					zap.String("body", string(bodyBytes)),
+				)
+			}
 
 			next.ServeHTTP(w, r)
 		})

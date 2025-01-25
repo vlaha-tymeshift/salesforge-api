@@ -10,7 +10,9 @@ import (
 	"salesforge-api/internal/api/handlers/sequence"
 	"salesforge-api/internal/config"
 	"salesforge-api/internal/middleware"
+	"salesforge-api/internal/monitoring"
 	"salesforge-api/internal/service"
+	"time"
 )
 
 func NewServer(
@@ -60,11 +62,33 @@ func handlers(
 	sequenceHandler := sequence.NewSequenceHandler(sequenceService, l)
 
 	r.Route("/v1", func(r chi.Router) {
-		r.Post("/sequence", sequenceHandler.AddSequence)
-		r.Put("/sequence", sequenceHandler.UpdateSequence)
-		r.Put("/step", sequenceHandler.UpdateStep)
-		r.Delete("/step", sequenceHandler.DeleteStep)
+		r.Post("/sequence", func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+			sequenceHandler.AddSequence(w, r)
+			duration := time.Since(start).Seconds()
+			monitoring.RecordMetrics("/v1/sequence", duration)
+		})
+		r.Put("/sequence", func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+			sequenceHandler.UpdateSequence(w, r)
+			duration := time.Since(start).Seconds()
+			monitoring.RecordMetrics("/v1/sequence", duration)
+		})
+		r.Put("/step", func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+			sequenceHandler.UpdateStep(w, r)
+			duration := time.Since(start).Seconds()
+			monitoring.RecordMetrics("/v1/step", duration)
+		})
+		r.Delete("/step", func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+			sequenceHandler.DeleteStep(w, r)
+			duration := time.Since(start).Seconds()
+			monitoring.RecordMetrics("/v1/step", duration)
+		})
 	})
+
+	r.Get("/metrics", http.HandlerFunc(monitoring.MetricsHandler().ServeHTTP))
 
 	return r
 }
