@@ -16,6 +16,25 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  testdb:
+    image: postgres:latest
+    container_name: postgres-test
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test123
+    ports:
+      - "5433:5432"
+    volumes:
+      - testdb_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   salesforge-api:
     build: .
     command: ./salesforge-api -config config/config.yaml
@@ -30,3 +49,4 @@ services:
 
 volumes:
   postgres_data:
+  testdb_data:

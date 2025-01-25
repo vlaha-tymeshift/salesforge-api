@@ -11,6 +11,7 @@ type Config struct {
 	Environment string       `yaml:"Environment"`
 	Server      ServerConfig `yaml:"Server"`
 	MySql       MySqlConfig  `yaml:"MySql"`
+	TestDB      MySqlConfig  `yaml:"TestDB"`
 	Logger      LoggerConfig `yaml:"Logger"`
 }
 

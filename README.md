@@ -34,15 +34,22 @@ Environment: "dev"
 Server:
   AppServerPort: 8080
   HealthcheckPort: 8081
+  JWTAuthentication: false
 MySql:
-  Db: "yourdatabase"
-  User: "youruser"
+  Db: "postgres"
+  User: "yourusername"
   Pass: "yourpassword"
   Host: "localhost"
   Port: 5432
+TestDB:
+  Db: "postgres"
+  User: "yourusername"
+  Pass: "yourpassword"
+  Host: "localhost"
+  Port: 5433
 Logger:
-  Level: "info"
-  Format: "json"
+  Level: "info" #debug
+  Format: "json" #console
 ```
 
 ## Running the Service
@@ -135,10 +142,7 @@ To run the SalesForge API project, follow these steps:
     - Consider adding support for UUID generation in the database.
 
 - **Testing**:
-    - Write unit tests for all service methods.
-    - Write integration tests for database interactions.
-    - Implement end-to-end tests for API endpoints.
-
+    - Consider implementing end-to-end tests for API endpoints.
 
 ## License
 This project is licensed under the MIT License.
