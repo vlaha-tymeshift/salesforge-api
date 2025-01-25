@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -14,6 +15,7 @@ import (
 	"salesforge-api/internal/psql"
 	"salesforge-api/internal/service"
 	"syscall"
+	"time"
 )
 
 var interruptSignals = []os.Signal{
@@ -47,7 +49,6 @@ func main() {
 	}
 	defer l.Sync()
 	l.Info("logger initialized")
-	defer l.Info("server exiting")
 
 	// Database.
 	db, err := psql.New(cfg.Psql)
@@ -84,7 +85,19 @@ func main() {
 	signal.Notify(sigChan, interruptSignals...)
 	sig := <-sigChan
 	l.Info("shutting down", zap.String("signal", sig.String()))
-	os.Exit(0)
+
+	// Graceful shutdown.
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := server.Shutdown(ctx); err != nil {
+		l.Fatal("server shutdown failed", zap.Error(err))
+	}
+	if err := healthCheckServer.Shutdown(ctx); err != nil {
+		l.Fatal("health check server shutdown failed", zap.Error(err))
+	}
+
+	l.Info("server exited properly")
 }
 
 func parseLogLevel(level string) zapcore.Level {
