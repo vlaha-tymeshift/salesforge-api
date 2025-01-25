@@ -6,7 +6,7 @@ SalesForge API is a service for managing email sequences and steps within those 
 
 ## Prerequisites
 
-- Go 1.16+
+- Go 1.22.5+
 - PostgreSQL
 - Docker
 
