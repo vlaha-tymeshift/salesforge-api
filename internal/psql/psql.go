@@ -7,7 +7,7 @@ import (
 	"salesforge-api/internal/config"
 )
 
-func New(conf config.MySqlConfig) (*sql.DB, error) {
+func New(conf config.PsqlConfig) (*sql.DB, error) {
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		conf.Host,
 		conf.Port,

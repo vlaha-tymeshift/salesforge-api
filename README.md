@@ -36,7 +36,7 @@ Server:
   AppServerPort: 8080
   HealthcheckPort: 8081
   JWTAuthentication: false
-MySql:
+Psql:
   Db: "postgres"
   User: "yourusername"
   Pass: "yourpassword"

@@ -50,7 +50,7 @@ func main() {
 	defer l.Info("server exiting")
 
 	// Database.
-	db, err := psql.New(cfg.MySql)
+	db, err := psql.New(cfg.Psql)
 	if err != nil {
 		l.Fatal("failed to connect to database", zap.Error(err))
 	}

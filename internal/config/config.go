@@ -10,8 +10,8 @@ type Config struct {
 	ServiceName string       `yaml:"ServiceName"`
 	Environment string       `yaml:"Environment"`
 	Server      ServerConfig `yaml:"Server"`
-	MySql       MySqlConfig  `yaml:"MySql"`
-	TestDB      MySqlConfig  `yaml:"TestDB"`
+	Psql        PsqlConfig   `yaml:"Psql"`
+	TestDB      PsqlConfig   `yaml:"TestDB"`
 	Logger      LoggerConfig `yaml:"Logger"`
 }
 
@@ -21,7 +21,7 @@ type ServerConfig struct {
 	JWTAuthentication bool `yaml:"JWTAuthentication"`
 }
 
-type MySqlConfig struct {
+type PsqlConfig struct {
 	Db   string `yaml:"Db"`
 	User string `yaml:"User"`
 	Pass string `yaml:"Pass"`
@@ -66,8 +66,8 @@ func (c Config) Validate() error {
 	if err := c.Server.Validate(); err != nil {
 		return fmt.Errorf("server config validation failed: %w", err)
 	}
-	if err := c.MySql.Validate(); err != nil {
-		return fmt.Errorf("mysql config validation failed: %w", err)
+	if err := c.Psql.Validate(); err != nil {
+		return fmt.Errorf("psql config validation failed: %w", err)
 	}
 	if err := c.Logger.Validate(); err != nil {
 		return fmt.Errorf("logger config validation failed: %w", err)
@@ -85,7 +85,7 @@ func (c ServerConfig) Validate() error {
 	return nil
 }
 
-func (c MySqlConfig) Validate() error {
+func (c PsqlConfig) Validate() error {
 	if c.Db == "" {
 		return fmt.Errorf("db name is required")
 	}
