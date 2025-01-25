@@ -62,6 +62,13 @@ To run the SalesForge API project, follow these steps:
 3. Build and run the project using the Makefile:  
 `make`
 
+## Running Tests
+To run the tests, use `make test` command:
+```bash
+make test
+```
+You will need test database credentials in the configuration file.
+
 ### API Endpoints
 
 #### Add Sequence
